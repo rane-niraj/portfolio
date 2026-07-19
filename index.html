@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Niraj Rane – Product Design Engineer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#0B0E13;--surface:#111620;--card:#161C28;--border:#1F2A3C;
+      --accent:#00C2FF;--accent2:#0047FF;--text:#E8EDF5;--muted:#7A8BA0;--label:#3A4F6A;
+    }
+    html{scroll-behavior:smooth}
+    body{background:var(--bg);color:var(--text);font-family:'Space Grotesk',sans-serif;font-size:16px;line-height:1.7;overflow-x:hidden}
+
+    /* NAV */
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.1rem 4%;background:rgba(11,14,19,0.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+    .nav-logo{font-family:'JetBrains Mono',monospace;font-size:1rem;color:var(--accent);letter-spacing:.05em;text-decoration:none;cursor:pointer}
+    .nav-links{display:flex;gap:2rem;list-style:none}
+    .nav-links a{color:var(--muted);text-decoration:none;font-size:.875rem;font-weight:500;cursor:pointer;transition:color .2s}
+    .nav-links a:hover{color:var(--accent)}
+    .nav-resume{font-family:'JetBrains Mono',monospace;font-size:.8rem;color:var(--accent);border:1px solid var(--accent);padding:.45rem 1.1rem;border-radius:4px;cursor:pointer;text-decoration:none;transition:background .2s,color .2s}
+    .nav-resume:hover{background:var(--accent);color:var(--bg)}
+    .nav-right{display:flex;align-items:center;gap:.75rem}
+    .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+    .hamburger span{display:block;width:22px;height:2px;background:var(--text);border-radius:2px}
+    .mobile-menu{display:none;position:fixed;top:60px;left:0;right:0;background:rgba(11,14,19,.98);border-bottom:1px solid var(--border);z-index:99;padding:1rem 0}
+    .mobile-menu.open{display:block}
+    .mobile-menu a{display:block;padding:.75rem 2rem;color:var(--muted);text-decoration:none;font-size:1rem;font-family:'JetBrains Mono',monospace;cursor:pointer}
+    .mobile-menu a:hover{color:var(--accent)}
+
+    /* HERO */
+    #hero{min-height:100vh;display:flex;align-items:center;padding:8rem 4% 4rem;position:relative;overflow:hidden}
+    .hero-grid{position:absolute;inset:0;opacity:.06;background-image:linear-gradient(var(--accent) 1px,transparent 1px),linear-gradient(90deg,var(--accent) 1px,transparent 1px);background-size:60px 60px;pointer-events:none}
+    .hero-glow{position:absolute;width:600px;height:600px;background:radial-gradient(circle,rgba(0,194,255,.12) 0%,transparent 70%);top:10%;left:-10%;pointer-events:none}
+    .hero-content{position:relative;max-width:900px}
+    .hero-tag{font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--accent);letter-spacing:.15em;text-transform:uppercase;margin-bottom:1.2rem;display:flex;align-items:center;gap:.6rem}
+    .hero-tag::before{content:'';display:inline-block;width:24px;height:1px;background:var(--accent)}
+    .hero-name{font-family:'Syne',sans-serif;font-size:clamp(3rem,8vw,6.5rem);font-weight:800;line-height:.95;letter-spacing:-.02em;color:var(--text);margin-bottom:.5rem}
+    .hero-name span{background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .hero-title{font-family:'JetBrains Mono',monospace;font-size:clamp(1rem,2vw,1.25rem);color:var(--muted);margin-bottom:1.8rem;letter-spacing:.05em}
+    .hero-desc{font-size:1.05rem;color:var(--muted);max-width:580px;margin-bottom:2.5rem;line-height:1.8;text-align:justify}
+    .hero-cta{display:flex;gap:1rem;flex-wrap:wrap}
+    .btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:var(--bg);font-family:'JetBrains Mono',monospace;font-size:.85rem;font-weight:600;padding:.75rem 2rem;border-radius:4px;border:none;letter-spacing:.05em;cursor:pointer;display:inline-flex;align-items:center;gap:.4rem;transition:opacity .2s,transform .2s}
+    .btn-primary:hover{opacity:.88;transform:translateY(-1px)}
+    .btn-outline{border:1px solid var(--border);color:var(--text);font-family:'JetBrains Mono',monospace;font-size:.85rem;padding:.75rem 2rem;border-radius:4px;background:transparent;letter-spacing:.05em;cursor:pointer;display:inline-flex;align-items:center;gap:.4rem;transition:border-color .2s,color .2s}
+    .btn-outline:hover{border-color:var(--accent);color:var(--accent)}
+
+    /* SECTIONS */
+    section{padding:6rem 4%}
+    .section-label{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--accent);letter-spacing:.2em;text-transform:uppercase;margin-bottom:.5rem}
+    .section-title{font-family:'Syne',sans-serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;letter-spacing:-.02em;margin-bottom:3rem;color:var(--text);text-align:left}
+
+    /* ABOUT */
+    #about{background:var(--surface)}
+    .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
+    .about-text p{color:var(--muted);font-size:1.02rem;line-height:1.85;margin-bottom:1.2rem;text-align:justify}
+    .about-text p strong{color:var(--text)}
+    .edu-list{display:flex;flex-direction:column;gap:1.2rem}
+    .edu-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1.4rem 1.6rem;position:relative;overflow:hidden}
+    .edu-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--accent),var(--accent2))}
+    .edu-degree{font-weight:600;font-size:.95rem;color:var(--text);margin-bottom:.25rem}
+    .edu-school{font-size:.85rem;color:var(--muted);margin-bottom:.5rem}
+    .edu-meta{display:flex;gap:1rem;font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--accent)}
+
+    /* SKILLS */
+    #skills{background:var(--bg)}
+    .skills-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem}
+    .skill-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1.6rem;transition:border-color .2s,transform .2s}
+    .skill-card:hover{border-color:var(--accent);transform:translateY(-3px)}
+    .skill-card-title{font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--accent);letter-spacing:.12em;text-transform:uppercase;margin-bottom:1rem}
+    .skill-tags{display:flex;flex-wrap:wrap;gap:.5rem}
+    .skill-tag{background:rgba(0,194,255,.07);border:1px solid rgba(0,194,255,.2);color:var(--text);font-size:.8rem;padding:.3rem .7rem;border-radius:4px;font-family:'JetBrains Mono',monospace}
+
+    /* EXPERIENCE */
+    #experience{background:var(--surface)}
+    .exp-list{display:flex;flex-direction:column;gap:1.5rem}
+    .exp-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:2rem 2.2rem;position:relative;overflow:hidden}
+    .exp-card::after{content:'';position:absolute;top:0;right:0;width:200px;height:200px;background:radial-gradient(circle,rgba(0,194,255,.06) 0%,transparent 70%);pointer-events:none}
+    .exp-header{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:.5rem;margin-bottom:1.2rem}
+    .exp-role{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:700;color:var(--text)}
+    .exp-badge{font-family:'JetBrains Mono',monospace;font-size:.72rem;background:rgba(0,194,255,.1);border:1px solid rgba(0,194,255,.3);color:var(--accent);padding:.3rem .8rem;border-radius:20px;letter-spacing:.08em;white-space:nowrap}
+    .exp-company{font-size:.92rem;color:var(--accent);font-weight:500;margin-bottom:.2rem}
+    .exp-location{font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--muted);margin-bottom:1.2rem}
+    .exp-desc{color:var(--muted);font-size:.97rem;line-height:1.8;text-align:justify}
+
+    /* PROJECTS */
+    #projects{background:var(--bg)}
+    .projects-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem}
+    .project-card{background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden;transition:border-color .25s,transform .25s;display:flex;flex-direction:column}
+    .project-card:hover{border-color:var(--accent);transform:translateY(-4px)}
+
+    /* CONSISTENT IMAGE RATIO 16:9 */
+    .project-img{width:100%;padding-bottom:56.25%;position:relative;overflow:hidden;background:linear-gradient(135deg,#0D1829 0%,#0B2240 50%,#071830 100%)}
+    .project-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .3s}
+    .project-card:hover .project-img img{transform:scale(1.04)}
+    .project-img-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;z-index:0}
+    .project-img-placeholder span{font-size:2.5rem;opacity:.25}
+    .project-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .3s;z-index:1}
+    .project-img img.img-loaded + .project-img-placeholder{display:none!important}
+    .project-img-label{position:absolute;bottom:.6rem;right:.8rem;font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--accent);background:rgba(0,0,0,.6);padding:.2rem .5rem;border-radius:3px}
+
+    .project-body{padding:1.5rem;flex:1;display:flex;flex-direction:column}
+    .project-tools{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.75rem}
+    .project-tool{font-family:'JetBrains Mono',monospace;font-size:.68rem;background:rgba(0,71,255,.12);border:1px solid rgba(0,71,255,.25);color:#6699FF;padding:.2rem .6rem;border-radius:3px;text-transform:uppercase;letter-spacing:.05em}
+    .project-name{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700;color:var(--text);margin-bottom:.5rem}
+    .project-desc{font-size:.87rem;color:var(--muted);line-height:1.7;flex:1;margin-bottom:1.2rem;text-align:justify}
+    .project-link{display:inline-flex;align-items:center;gap:.4rem;font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--accent);text-decoration:none;border:1px solid rgba(0,194,255,.25);padding:.45rem 1rem;border-radius:4px;transition:background .2s;width:fit-content}
+    .project-link:hover{background:rgba(0,194,255,.1)}
+    .project-link-placeholder{font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--label);font-style:italic}
+
+    /* MODAL */
+    .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:200;overflow-y:auto;backdrop-filter:blur(8px)}
+    .modal-overlay.open{display:block}
+    .modal-box{background:var(--bg);border:1px solid var(--border);border-radius:12px;max-width:1200px;margin:3rem auto;padding:2.5rem;position:relative}
+    .modal-header{display:flex;align-items:center;gap:1.5rem;margin-bottom:2rem;flex-wrap:wrap}
+    .modal-back{background:var(--card);border:1px solid var(--border);color:var(--text);font-family:'JetBrains Mono',monospace;font-size:.82rem;height:36px;padding:0 1.2rem;border-radius:6px;cursor:pointer;display:flex;align-items:center;gap:.4rem;transition:border-color .2s,color .2s}
+    .modal-back:hover{border-color:var(--accent);color:var(--accent)}
+    .modal-title{font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;color:var(--text)}
+    .modal-count{font-family:'JetBrains Mono',monospace;font-size:.8rem;color:var(--muted)}
+
+    /* FILTER TABS */
+    .filter-tabs{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:2rem}
+    .filter-tab{font-family:'JetBrains Mono',monospace;font-size:.75rem;padding:.35rem .9rem;border-radius:20px;border:1px solid var(--border);color:var(--muted);background:transparent;cursor:pointer;letter-spacing:.04em;transition:all .2s}
+    .filter-tab:hover{border-color:var(--accent);color:var(--accent)}
+    .filter-tab.active{background:var(--accent);border-color:var(--accent);color:var(--bg)}
+
+    .modal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.2rem}
+    .project-card.hidden{display:none}
+
+    /* GET IN TOUCH MODAL */
+    .contact-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:200;align-items:center;justify-content:center;backdrop-filter:blur(8px)}
+    .contact-modal.open{display:flex}
+    .contact-box{background:var(--card);border:1px solid var(--border);border-radius:12px;max-width:500px;width:90%;padding:2.5rem;position:relative}
+    .contact-box h3{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;color:var(--text);margin-bottom:.4rem}
+    .contact-box p{color:var(--muted);font-size:.92rem;margin-bottom:2rem}
+    .contact-item{display:flex;align-items:center;gap:1rem;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:1rem 1.2rem;margin-bottom:.85rem;text-decoration:none;color:var(--text);transition:border-color .2s;cursor:pointer}
+    .contact-item:hover{border-color:var(--accent)}
+    .contact-item-icon{width:38px;height:38px;background:rgba(0,194,255,.08);border:1px solid rgba(0,194,255,.2);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .contact-item-text .label{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--accent);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.15rem}
+    .contact-item-text .value{font-size:.9rem;color:var(--text)}
+
+    /* CERTS */
+    #certifications{background:var(--surface)}
+    .certs-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem}
+    .cert-item{display:flex;align-items:flex-start;gap:.9rem;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1.2rem 1.4rem;transition:border-color .2s}
+    .cert-item:hover{border-color:rgba(0,194,255,.4)}
+    .cert-icon{flex-shrink:0;width:36px;height:36px;background:rgba(0,194,255,.1);border:1px solid rgba(0,194,255,.2);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:1rem}
+    .cert-name{font-size:.88rem;color:var(--text);font-weight:500;line-height:1.4;margin-bottom:.2rem}
+    .cert-issuer{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--muted)}
+
+    /* CONTACT */
+    #contact{background:var(--bg);text-align:center}
+    .contact-inner{max-width:640px;margin:0 auto}
+    .contact-desc{color:var(--muted);font-size:1.05rem;margin-bottom:2.5rem;line-height:1.8;text-align:justify}
+    .contact-links{display:flex;justify-content:center;flex-wrap:wrap;gap:1rem;margin-bottom:3rem}
+    .contact-link{display:flex;align-items:center;gap:.6rem;background:var(--card);border:1px solid var(--border);color:var(--text);font-family:'JetBrains Mono',monospace;font-size:.82rem;padding:.7rem 1.4rem;border-radius:6px;text-decoration:none;transition:border-color .2s,color .2s}
+    .contact-link:hover{border-color:var(--accent);color:var(--accent)}
+
+    footer{text-align:center;padding:2rem 4%;border-top:1px solid var(--border);font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--label)}
+
+    .reveal{opacity:0;transform:translateY(28px);transition:opacity .6s ease,transform .6s ease}
+    .reveal.visible{opacity:1;transform:translateY(0)}
+
+    @media(max-width:768px){
+      nav{padding:1rem 5%}
+      .nav-links{display:none}
+      .hamburger{display:flex}
+      .nav-right{display:flex;align-items:center;gap:.6rem}
+      .nav-resume{font-size:.72rem;padding:.38rem .8rem}
+      .about-grid{grid-template-columns:1fr;gap:2.5rem}
+      section{padding:4rem 5%}
+      .skills-grid{grid-template-columns:1fr}
+      .projects-grid{grid-template-columns:1fr}
+      .modal-box{margin:1rem;padding:1.5rem}
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-logo" onclick="goTop()">N.RANE</span>
+  <ul class="nav-links">
+    <li><a onclick="navTo('about')">About</a></li>
+    <li><a onclick="navTo('skills')">Skills</a></li>
+    <li><a onclick="navTo('experience')">Experience</a></li>
+    <li><a onclick="navTo('projects')">Projects</a></li>
+    <li><a onclick="navTo('certifications')">Certs</a></li>
+    <li><a onclick="navTo('contact')">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="#" onclick="openResume(event)" class="nav-resume">Resume ↗</a>
+    <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a onclick="mobileNav('about')">About</a>
+  <a onclick="mobileNav('skills')">Skills</a>
+  <a onclick="mobileNav('experience')">Experience</a>
+  <a onclick="mobileNav('projects')">Projects</a>
+  <a onclick="mobileNav('certifications')">Certifications</a>
+  <a onclick="mobileNav('contact')">Contact</a>
+  <a onclick="openResume(event)">Resume ↗</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content reveal">
+    <div class="hero-tag">Product Design Engineer · NPD</div>
+    <h1 class="hero-name">NIRAJ<br><span>RANE</span></h1>
+    <p class="hero-title">// CATIA V5 · Siemens NX · Plastic & BIW Design</p>
+    <p class="hero-desc">Mechanical engineer with hands-on experience in plastic product design, BIW development, and assembly modelling — specialising in DFM-driven design for automotive components using CATIA V5, Siemens NX, and CREO. Currently contributing to NPD at Spark Minda, with a strong foundation built through academic projects, a year of teaching-intensive internship, and 500+ completed design projects.</p>
+    <div class="hero-cta">
+      <button class="btn-primary" onclick="openAllProjects()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        View Projects
+      </button>
+      <button class="btn-outline" onclick="openContact()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Get in Touch
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label">About</div>
+  <h2 class="section-title">Who I Am</h2>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p>I'm a <strong>Mechanical Engineering graduate (2025)</strong> with a strong foundation in 3D modelling, parametric design, and automotive component development. My core expertise lies in <strong>plastic product design and BIW structures</strong> using CATIA V5 and Siemens NX, with practical exposure to injection moulding, sheet metal, surface handling, and A-to-B surface creation.</p>
+      <p>I spent a year as an <strong>internship instructor at CAD CAM Guru Solutions Pvt. Ltd.</strong>, where I taught CATIA V5, Siemens NX, CREO, and ZW CAD to engineering students — a role that deepened my own technical mastery while sharpening my ability to communicate complex design concepts clearly.</p>
+      <p>Since <strong>October 2025</strong>, I've been part of the R&D team at <strong>Spark Minda (Minda Infac Pvt. Ltd.)</strong>, contributing to New Product Development on automotive antenna systems — applying DFM principles, 3D modelling, and cross-functional collaboration to deliver production-ready designs. With <strong>500+ completed design projects</strong> spanning assemblies, plastic parts, BIW, and reverse engineering, I bring both volume and variety to every design challenge.</p>
+    </div>
+    <div class="reveal">
+      <div class="edu-list">
+        <div class="edu-card">
+          <div class="edu-degree">B.E. Mechanical Engineering</div>
+          <div class="edu-school">Savitribai Phule Pune University, Pune</div>
+          <div class="edu-meta"><span>2025</span><span>CGPA: 6.0 / 10.0</span></div>
+        </div>
+        <div class="edu-card">
+          <div class="edu-degree">Diploma in Mechanical Engineering</div>
+          <div class="edu-school">MSBTE, Malkapur</div>
+          <div class="edu-meta"><span>2021</span><span>89.20%</span></div>
+        </div>
+        <div class="edu-card">
+          <div class="edu-degree">Matriculation (SSC)</div>
+          <div class="edu-school">Maharashtra State Board</div>
+          <div class="edu-meta"><span>2018</span><span>82.96%</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-label">Skills</div>
+  <h2 class="section-title">Technical Expertise</h2>
+  <div class="skills-grid">
+    <div class="skill-card reveal">
+      <div class="skill-card-title">CAD Software</div>
+      <div class="skill-tags">
+        <span class="skill-tag">CATIA V5</span>
+        <span class="skill-tag">Siemens NX</span>
+        <span class="skill-tag">CREO</span>
+        <span class="skill-tag">AutoCAD</span>
+        <span class="skill-tag">ZW CAD</span>
+        <span class="skill-tag">SolidWorks</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-card-title">Design & Engineering</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Plastic Product Design</span>
+        <span class="skill-tag">BIW Product Design</span>
+        <span class="skill-tag">Assembly Design</span>
+        <span class="skill-tag">Sheet Metal</span>
+        <span class="skill-tag">DFM</span>
+        <span class="skill-tag">Injection Moulding</span>
+        <span class="skill-tag">A to B Surface</span>
+        <span class="skill-tag">Remastering</span>
+        <span class="skill-tag">GD&T</span>
+        <span class="skill-tag">Tolerance Stack-Up</span>
+        <span class="skill-tag">Parametric Design</span>
+        <span class="skill-tag">NPD</span>
+        <span class="skill-tag">Reverse Engineering</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-label">Experience</div>
+  <h2 class="section-title">Where I've Worked</h2>
+  <div class="exp-list">
+    <div class="exp-card reveal">
+      <div class="exp-header">
+        <div class="exp-role">Design Engineer – R&D</div>
+        <span class="exp-badge">Current</span>
+      </div>
+      <div class="exp-company">Spark Minda · Minda Infac Private Limited</div>
+      <div class="exp-location">📍 Pune, Maharashtra &nbsp;·&nbsp; Oct 2025 – Present</div>
+      <p class="exp-desc">Working within the R&D team on <strong>New Product Development (NPD)</strong> for automotive components. Involved in design and development of antenna projects — contributing to concept modelling in CATIA V5, design validation, DFM reviews, and cross-functional collaboration with manufacturing and tooling teams to deliver production-ready designs aligned with automotive quality standards.</p>
+    </div>
+    <div class="exp-card reveal">
+      <div class="exp-header">
+        <div class="exp-role">CAD Design Intern – Instructor</div>
+        <span class="exp-badge" style="background:rgba(0,230,118,.08);border-color:rgba(0,230,118,.3);color:#00E676;">Completed</span>
+      </div>
+      <div class="exp-company">CAD CAM Guru Solutions Pvt. Ltd.</div>
+      <div class="exp-location">📍 Chinchwad, Pune &nbsp;·&nbsp; Sept 2024 – Oct 2025</div>
+      <p class="exp-desc">Completed a one-year hands-on internship as a <strong>CAD instructor</strong> — teaching engineering students CATIA V5, Siemens NX, PTC CREO, and ZW CAD through structured classroom sessions and live lab practice. Resolved student doubts during practice sessions, reinforcing deep command of multi-platform CAD workflows and design best practices. This role directly contributed to the 37+ design projects completed across multiple domains.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS (4 Featured) -->
+<section id="projects">
+  <div class="section-label">Projects</div>
+  <h2 class="section-title">Featured Work</h2>
+  <div class="projects-grid">
+
+    <!-- Featured 1: BIW Cross Member -->
+    <div class="project-card reveal">
+      <div class="project-img">
+        <img src="images/BIW_Cross_Member.jpg" alt="BIW Cross Member" onload="this.classList.add('img-loaded');this.nextElementSibling.style.display='none'" onerror="this.style.display='none'"/>
+        <div class="project-img-placeholder"><span>▦</span></div>
+        <div class="project-img-label">CATIA V5</div>
+      </div>
+      <div class="project-body">
+        <div class="project-tools"><span class="project-tool">CATIA V5</span><span class="project-tool">BIW Design</span></div>
+        <div class="project-name">BIW Cross Member</div>
+        <p class="project-desc">Designed and validated a Body-in-White underbody cross member in CATIA V5, applying master section inputs, automotive BIW standards, GD&T annotations, and manufacturing drawing preparation.</p>
+        <a href="https://cad.onshape.com/documents/b2434951b35ea7c35bce6b25" target="_blank" class="project-link">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          View 3D Model
+        </a>
+      </div>
+    </div>
+
+    <!-- Featured 2: Automotive A Pillar -->
+    <div class="project-card reveal">
+      <div class="project-img">
+        <img src="images/A_piller.jpg" alt="Automotive A Pillar" onload="this.classList.add('img-loaded');this.nextElementSibling.style.display='none'" onerror="this.style.display='none'"/>
+        <div class="project-img-placeholder"><span>⬡</span></div>
+        <div class="project-img-label">CATIA V5</div>
+      </div>
+      <div class="project-body">
+        <div class="project-tools"><span class="project-tool">CATIA V5</span><span class="project-tool">Plastic Product Design</span></div>
+        <div class="project-name">Automotive A Pillar</div>
+        <p class="project-desc">Designed an automotive A-pillar plastic trim component in CATIA V5, with attention to class-A surface interpretation, wall thickness, ribs, snaps, and parting line definition for injection moulding.</p>
+        <a href="https://cad.onshape.com/documents/0ccbcff5dc94e2f51e9abdd9" target="_blank" class="project-link">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          View 3D Model
+        </a>
+      </div>
+    </div>
+
+    <!-- Featured 3: Side Storage Box -->
+    <div class="project-card reveal">
+      <div class="project-img">
+        <img src="images/Side_Storage_Box.jpg" alt="Side Storage Box" onload="this.classList.add('img-loaded');this.nextElementSibling.style.display='none'" onerror="this.style.display='none'"/>
+        <div class="project-img-placeholder"><span>⬡</span></div>
+        <div class="project-img-label">CATIA V5</div>
+      </div>
+      <div class="project-body">
+        <div class="project-tools"><span class="project-tool">CATIA V5</span><span class="project-tool">Plastic Product Design</span></div>
+        <div class="project-name">Side Storage Box (Cup Holder)</div>
+        <p class="project-desc">Modelled an automotive side storage and cup holder assembly in CATIA V5, incorporating plastic design features — draft angles, hollow bosses, snap fits, and ergonomic form for in-vehicle fitment.</p>
+        <a href="https://cad.onshape.com/documents/59d6028a37bfe9502d04db12" target="_blank" class="project-link">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          View 3D Model
+        </a>
+      </div>
+    </div>
+
+    <!-- Featured 4: Fuse Box -->
+    <div class="project-card reveal">
+      <div class="project-img">
+        <img src="images/Fuse_Box_Joining.jpg" alt="Fuse Box" onload="this.classList.add('img-loaded');this.nextElementSibling.style.display='none'" onerror="this.style.display='none'"/>
+        <div class="project-img-placeholder"><span>⬡</span></div>
+        <div class="project-img-label">CATIA V5</div>
+      </div>
+      <div class="project-body">
+        <div class="project-tools"><span class="project-tool">CATIA V5</span><span class="project-tool">Plastic Product Design</span></div>
+        <div class="project-name">Fuse Box</div>
+        <p class="project-desc">Designed an automotive fuse box housing in CATIA V5, focusing on joining features, cover fitment, internal rib layout, and DFM compliance for high-volume plastic injection moulding.</p>
+        <a href="https://cad.onshape.com/documents/04c6e82e9f28a89ca0bca2b8" target="_blank" class="project-link">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          View 3D Model
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:2.5rem;">
+    <button onclick="openAllProjects()" class="btn-outline">View All Projects (37 shown) ↓</button>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <div class="section-label">Certifications</div>
+  <h2 class="section-title">Credentials</h2>
+  <div class="certs-list">
+    <div class="cert-item reveal"><div class="cert-icon">🏆</div><div><div class="cert-name">CAD Design Expert Ultimate</div><div class="cert-issuer">CAD CAM Guru Solution Pvt. Ltd.</div></div></div>
+    <div class="cert-item reveal"><div class="cert-icon">📐</div><div><div class="cert-name">CATIA V5 – Design for Injection Moulding</div><div class="cert-issuer">LinkedIn Learning</div></div></div>
+    <div class="cert-item reveal"><div class="cert-icon">📋</div><div><div class="cert-name">Managing Multiple Projects</div><div class="cert-issuer">LinkedIn Learning</div></div></div>
+    <div class="cert-item reveal"><div class="cert-icon">📄</div><div><div class="cert-name">Engineering Drawings for Manufacturing</div><div class="cert-issuer">LinkedIn Learning</div></div></div>
+    <div class="cert-item reveal"><div class="cert-icon">📏</div><div><div class="cert-name">Introduction to GD&T</div><div class="cert-issuer">LinkedIn Learning</div></div></div>
+    <div class="cert-item reveal"><div class="cert-icon">🎓</div><div><div class="cert-name">CATIA V5 – Beginner to Advance (Automotive & Industrial)</div><div class="cert-issuer">Udemy</div></div></div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <div class="section-label" style="justify-content:center;display:flex;">Contact</div>
+    <h2 class="section-title reveal">Let's Connect</h2>
+    <p class="contact-desc reveal">Actively seeking opportunities as a <strong>Product Design Engineer</strong> or <strong>Plastic / BIW Design Specialist</strong>. Open to full-time roles, collaborations, and challenging design projects.</p>
+    <div class="contact-links reveal">
+      <a href="mailto:nirajrane1962@gmail.com" class="contact-link">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        nirajrane1962@gmail.com
+      </a>
+      <a href="tel:+918956287397" class="contact-link">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.15 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.05 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 17z"/></svg>
+        +91 89562 87397
+      </a>
+      <a href="https://www.linkedin.com/in/niraj-rane-845a111b6" target="_blank" class="contact-link">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+        LinkedIn Profile
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>© 2026 Niraj Sopan Rane · Product Design Engineer</footer>
+
+<!-- ALL PROJECTS MODAL -->
+<div class="modal-overlay" id="allProjectsModal" onclick="closeModalOutside(event,'allProjectsModal')">
+  <div class="modal-box">
+    <div class="modal-header">
+      <button class="modal-back" onclick="closeModal('allProjectsModal')">← Back</button>
+      <div>
+        <div class="modal-title">All Projects</div>
+        <div class="modal-count">37 projects shown · 500+ completed · CATIA V5 · Siemens NX · SolidWorks</div>
+      </div>
+    </div>
+    <div class="filter-tabs">
+      <button class="filter-tab active" onclick="filterProjects('all',this)">All (37)</button>
+      <button class="filter-tab" onclick="filterProjects('Assembly Design',this)">Assembly Design</button>
+      <button class="filter-tab" onclick="filterProjects('Plastic Product Design',this)">Plastic Part Design</button>
+      <button class="filter-tab" onclick="filterProjects('BIW Part Design',this)">BIW Design</button>
+      <button class="filter-tab" onclick="filterProjects('Sheet Metal',this)">Sheet Metal</button>
+      <button class="filter-tab" onclick="filterProjects('Remastering',this)">Remastering</button>
+      <button class="filter-tab" onclick="filterProjects('Reverse Engineering',this)">Reverse Engineering</button>
+      <button class="filter-tab" onclick="filterProjects('Other Design',this)">Other</button>
+    </div>
+    <div class="modal-grid" id="modalGrid">
+
+      <div class="project-card" data-cat="Assembly Design">
+        <div class="project-img"><img src="images/Valve_Assembly.jpg" alt="Valve Assembly" onload="this.classList.add('img-loaded');this.nextElementSibling.style.display='none'" onerror="this.style.display='none'"/><div class="project-img-placeholder"><span>⚙️</span></div><div class="project-img-label">CATIA V5</div></div>
+        <div class="project-body"><div class="project-tools"><span class="project-tool">CATIA V5</span><span class="project-tool">Assembly Design</span></div><div class="project-name">Valve Assembly</div><p class="project-desc">Multi-component valve assembly designed in CATIA V5, covering part modelling, mating constraints, and functional motion simulation.</p><a href="https://cad.onshape.com/documents/5efa732b3ab7ed843e81a7a1" target="_blank" class="project-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>View 3D</a></div>
+      </div>
+
+      <div class="project-card" data-cat="Assembly Design">
+        <div class="project-img"><img src="images/Universal_joint_assembly.jpg" alt="Universal Joint" onload="this.classList.add('img-loaded');this.nextElementSibling.style.display='none'" onerror="this.style.display='none'"/><div class="project-img-placeholder"><span>⚙️</span></div><div class="project-img-label">CATIA V5</div></div>
+        <div class="project-body"><div class="project-tools"><span class="project-tool">CATIA V5</span><span class="project-tool">Assembly Design</span></div><div class="project-name">Universal Joint Assembly</div><p class="project-desc">Parametric universal joint assembly modelled in CATIA V5 with precise articulation constraints and standard tolerance applications.</p><a href="https://cad.onshape.com/documents/f9d3ce8b0d532c1c84e1d7da" target="_blank" class="project-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>View 3D</a></div>
+      </div>
+
+      <div class="project-card" data-cat="Assembly Design">
+        <div class="project-img"><img src="images/Toy.jpg" alt="Toy Assembly" onload="this.classList.add('img-loaded');this.nextElementSibling.style.display='none'" onerror="this.style.display='none'"/><div class="project-img-placeholder"><span>⚙️</span></div><div class="project-img-label">CATIA V5</div></div>
+        <div class="project-body"><div class="project-tools"><span class="project-tool">CATIA V5</span><span class="project-tool">Assembly Design</span></div><div class="project-name">Toy Assembly</div><p class="project-desc">Consumer product toy modelled and assembled in CATIA V5, demonstrating multi-body part design and assembly constraint methodology.</p><a href="https://cad.onshape.com/documents/de7880285a8b518e2978fb63" target="_blank" class="project-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>View 3D</a></div>
+      </div>
+
+      <div class="project-card" data-cat="Assembly Design">
+        <div class="project-img"><img src="images/Slider_Crank_mechanism.jpg" alt="Slider Crank" onload="this.classList.add('img-loaded');this.nextElementSibling.style.display='none'" onerror="this.style.display='none'"/><div class="project-img-placeholder"><span>⚙️</span></div><div class="project-img-label">CATIA V5</div></div>
+        <div class="project-body"><div class="project-tools"><span class="project-tool">CATIA V5</span><span class="project-tool">Assembly Design</span></div><div class="project-name">Slider Crank Mechanism</div><p class="project-desc">Classic slider crank mechanism designed and assembled in CATIA V5, with kinematic constraints enabling functional motion simulation of the assembly.</p><a href="https://cad.onshape.com/documents/d0d767f4bc740c0eacaf2ed5" target="_blank" class="project-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>View 3D</a></div>
+      </div>
+
+      <div class="project-card" data-cat="Plastic Product Design">
+        <div class="project-img"><img src="images/Side_Storage_Box.jpg" alt="Side Storage Box" onload="this.classList.add('img-loaded');this.nextElementSibling.style.display='none'" onerror="this.style.display='none'"/><div class="project-img-placeholder"><span>⬡</span></div><div class="project-img-label">CATIA V5</div></div>
+        <div class="project-body"><div class="project-tools"><span class="project-tool">CATIA V5</span><span class="project-tool">Plastic Product Design</span></div><div class="project-name">Side Storage Box (Cup Holder)</div><p class="project-desc">Automotive side storage and cup holder modelled with draft angles, snap fits, hollow bosses, and ergonomic form for in-vehicle fitment.</p><a href="https://cad.onshape.com/documents/59d6028a37bfe9502d04db12" target="_blank" class="project-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>View 3D</a></div>
+      </div>
+
+      <div class="project-card" data-cat="Assembly Design">
+        <div class="project-img"><img src="images/Screw_Jack_Assembly.jpg" alt="Screw Jack" onload="this.classList.add('img-loaded');this.nextElementSibling.style.display='none'" onerror="this.style.display='none'"/><div class="project-img-placeholder"><span>⚙️</span></div><div class="project-img-label">CATIA V5</div></div>
+        <div class="project-body"><div class="project-tools"><span class="project-tool">CATIA V5</span><span class="project-tool">Assembly Design</span></div><div class="project-name">Screw Jack Assembly</div><p class="project-desc">Full screw jack assembly designed in CATIA V5 with threaded screw, load plate, and support base, demonstrating mechanical linkage and constraint setup.</p><a href="https://cad.onshape.com/documents/678f5c109a10db9124e3c721" target="_blank" class="project-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>View 3D</a></div>
+      </div>
+
+      <div class="project-card" data-cat="Remastering">
+        <div class="project-img"><img src="images/Remastering_sheetmetal.jpg" alt="Remastering" onload="this.classList.add('img-loaded');this.nextElementSibling.style.display='none'" onerror="this.style.display='none'"/><div class="project-img-placeholder"><span>🔧</span></div><div class="project-img-label">CATIA V5</div></div>
+        <div class="project-body"><div class="project-tools"><span class="project-tool">CATIA V5</span><span class="project-tool">Remastering</span></div><div class="project-name">Sheetmetal Part Remastering</div><p class="project-desc">Remastered an existing sheet metal component in CATIA V5 — rebuilding parametric history, correcting feature tree structure, and updating design intent for manufacturing accuracy.</p><a href="https://cad.onshape.com/documents/61a5fb99b3e8c0875f63a4cb" target="_blank" class="project-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>View 3D</a></div>
+      </div>
+
+      <div class="project-card" data-cat="Assembly Design">
+        <div class="project-img"><img src="images/Radial_Engine_assembly.jpg" alt="Radial Engine" onload="this.classList.add('img-loaded');this.nextElementSibling.style.display='none'" onerror="this.style.display='none'"/><div class="project-img-placeholder"><span>⚙️</span></div><div class="project-img-label">CATIA V5</div></div>
+        <div class="project-body"><div class="project-tools"><span class="project-tool">CATIA V5</span><span class="project-tool">Assembly Design</span></div><div class="project-name">Radial Engine Assembly</div><p class="project-desc">Complex radial engine assembly modelled in CATIA V5 with multiple cylinders, crankshaft, pistons, and connecting rods, showcasing advanced multi-body assembly skills.</p><a href="https://cad.onshape.com/documents/b4c99b1bddbfcca449cc0059" target="_blank" class="project-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>View 3D</a></div>
+      </div>
+
+      <div class="project-card" data-cat="Other Design">
+        <div class="project-img"><img src="images/Pressure_Vessel.jpg" alt="Pressure Vessel" onload="this.classList.add('img-loaded');this.nextElementSibling.style.display='none'" onerror="this.style.display='none'"/><div class="project-img-placeholder"><span>🔩</span></div><div class="project-img-label">CATIA V5</div></div>
+        <div class="project-body"><div class="project-tools"><span class="project-tool">CATIA V5</span><span class="project-tool">Part Design</span></div><div class="project-name">Pressure Vessel</div><p class="project-desc">Pressure vessel designed in CATIA V5 following standard industrial geometry, including nozzle placement, shell body, and end cap features with engineering drawing output.</p><a href="https://cad.onshape.com/documents/cfbfa3c6d43a3f62cb4f4eb6" target="_blank" class="project-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>View 3D</a></div>
+      </div>
+
+      <div class="project-card" data-cat="Assembly Design">
+        <div class="project-img"><img src="images/Plumber_Block_Assembly.jpg" alt="Plumber Block" onload="this.classList.add('img-loaded');this.nextElementSibling.style.display='none'" onerror="this.style.display='none'"/><div class="project-img-placeholder"><span>⚙️</span></div><div class="project-img-label">CATIA V5</div></div>
+        <div class="project-body"><div class="project-tools"><span class="project-tool">CATIA V5</span><span class="project-tool">Assembly Design</span></div><div class="project-name">Plumber Block Assembly</div><p class="project-desc">Plumber block bearing assembly designed in CATIA V5, with housing, bearing insert, bolts, and cap components fully constrained and mated for accurate representation.</p><a href="https://cad.onshape.com/documents/4f5c06cd103fe91cc39b711b" target="_blank" class="project-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>View 3D</a></div>
+      </div>
+
+      <div class="project-card" data-cat="Plastic Product Design">
+        <div class="project-img"><img src="images/Plastic_Part_4.jpg" alt="Plastic Part 4" onload="this.classList.add('img-loaded');this.nextElementSibling.style.display='none'" onerror="this.style.display='none'"/><div class="project-img-placeholder"><span>⬡</span></div><div class="project-img-label">CATIA V5</div></div>
+        <div class="project-body"><div class="project-tools"><span class="project-tool">CATIA V5</span><span class="project-tool">Plastic Product Design</span></div><div class="project-name">Plastic Part 4</div><p class="project-desc">Injection-moulded plastic component designed in CATIA V5 with DFM-compliant wall thickness, rib patterns, and draft angles for production feasibility.</p><a href="https://cad.onshape.com/documents/db1ba8c75c5856c6dfa1f36b" target="_blank" class="project-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>View 3D</a></div>
+      </div>
+
+      <div class="project-card" data-cat="Plastic Product Design">
+        <div class="project-img"><img src="images/Plastic_Part_3.jpg" alt="Plastic Part 3" onload="this.classList.add('img-loaded');this.nextElementSibling.style.display='none'" onerror="this.style.display='none'"/><div class="project-img-placeholder"><span>⬡</span></div><div class="project-img-label">CATIA V5</div></div>
+        <div class="project-body"><div class="project-tools"><span class="project-tool">CATIA V5</span><span class="project-tool">Plastic Product Design</span></div><div class="project-name">Plastic Part 3</div><p class="project-desc">Plastic component featuring snap-fit joints, hollow boss design, and uniform wall thickness, modelled in CATIA V5 with injection moulding design guidelines applied.</p><a href="https://cad.onshape.com/documents/d453ebf2b79170e9b6f25d03" target="_blank" class="project-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>View 3D</a></div>
+      </div>
+
+      <div class="project-card" data-cat="Plastic Product Design">
+        <div class="project-img"><img src="images/Plastic_Part_2.jpg" alt="Plastic Part 2" onload="this.classList.add('img-loaded');this.nextElementSibling.style.display='none'" onerror="this.style.display='none'"/><div class="project-img-placeholder"><span>⬡</span></div><div class="project-img-label">CATIA V5</div></div>
+        <div class="project-body"><div class="project-tools"><span class="project-tool">CATIA V5</span><span class="project-tool">Plastic Product Design</span></div><div class="project-name">Plastic Part 2</div><p class="project-desc">Curved plastic component modelled in CATIA V5 with surface-driven design approach, parting surface definition, and analysis for gate placement and material flow.</p><a href="https://cad.onshape.com/documents/2f0ad5ebdedb2ab8cd33bfc3" target="_blank" class="project-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>View 3D</a></div>
+      </div>
+
+      <div class="project-card" data-cat="Plastic Product Design">
+        <div class="project-img"><img src="images/Plastic_Part_1.jpg" alt="Plastic Part 1" onload="this.classList.add('img-loaded');this.nextElementSibling.style.display='none'" onerror="this.style.display='none'"/><div class="project-img-placeholder"><span>⬡</span></div><div class="project-img-label">CATIA V5</div></div>
+        <div class="project-body"><div class="project-tools"><span class="project-tool">CATIA V5</span><span class="project-tool">Plastic Product Design</span></div><div class="project-name">Plastic Part 1</div><p class="project-desc">First in a series of progressive plastic design exercises in CATIA V5, establishing foundational DFM principles — wall thickness, ribs, bosses, and draft angle setup.</p><a href="https://cad.onshape.com/documents/2013eff127d348c0cedf1554" target="_blank" class="project-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>View 3D</a></div>
+      </div>
+
+      <div class="project-card" data-cat="Plastic Product Design">
+        <div class="project-img"><img src="images/Plastic_ABS.jpg" alt="Plastic ABS" onload="this.classList.add('img-loaded');this.nextElementSibling.style.display='none'" onerror="this.style.display='none'"/><div class="project-img-placeholder"><span>⬡</span></div><div class="project-img-label">CATIA V5</div></div>
+        <div class="project-body"><div class="project-tools"><span class="project-tool">CATIA V5</span><span class="project-tool">Plastic Product Design</span></div><div class="project-name">Plastic ABS Part</div><p class="project-desc">ABS plastic component designed in CATIA V5 with material-specific wall thickness and corner radius considerations for optimal structural performance in injection moulding.</p><a href="https://cad.onshape.com/documents/b6ee51861b954691e5a84907" target="_blank" class="project-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>View 3D</a></div>
+      </div>
+
+      <div class="project-card" data-cat="Assembly Design">
+        <div class="project-img"><img src="images/Pipe_Vice_assembly.jpg" alt="Pipe Vice" onload="this.classList.add('img-loaded');this.nextElementSibling.style.display='none'" onerror="this.style.display='none'"/><div class="project-img-placeholder"><span>⚙️</span></div><div class="project-img-label">CATIA V5</div></div>
+        <div class="project-body"><div class="project-tools"><span class="project-tool">CATIA V5</span><span class="project-tool">Assembly Design</span></div><div class="project-name">Pipe Vice Assembly</div><p class="project-desc">Pipe vice assembly modelled in CATIA V5 with jaw, screw mechanism, and handle components, applying standard mechanical assembly constraints and tolerances.</p><a href="https://cad.onshape.com/documents/a6de000810c1ae0146a918ca" target="_blank" class="project-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>View 3D</a></div>
+      </div>
+
+      <div class="project-card" data-cat="Other Design">
+        <div class="project-img"><img src="images/Overhead_lifting_crane.jpg" alt="Overhead Crane" onload="this.classList.add('img-loaded');this.nextElementSibling.style.display='none'" onerror="this.style.display='none'"/><div class="project-img-placeholder"><span>🏗️</span></div><div class="project-img-label">CATIA V5</div></div>
+        <div class="project-body"><div class="project-tools"><span class="project-tool">CATIA V5</span><span class="project-tool">Other Design</span></div><div class="project-name">Overhead Lifting Crane</div><p class="project-desc">Structural overhead lifting crane modelled in CATIA V5, incorporating beam framework, trolley assembly, and hook mechanism with structural layout awareness.</p><a href="https://cad.onshape.com/documents/f1942809f4b90e3fe7e9cc7f" target="_blank" class="project-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>View 3D</a></div>
+      </div>
+
+      <div class="project-card" data-cat="Assembly Design">
+        <div class="project-img"><img src="images/Oldhams_coupling_assembly.jpg" alt="Oldhams Coupling" onload="this.classList.add('img-loaded');this.nextElementSibling.style.display='none'" onerror="this.style.display='none'"/><div class="project-img-placeholder"><span>⚙️</span></div><div class="project-img-label">CATIA V5</div></div>
+        <div class="project-body"><div class="project-tools"><span class="project-tool">CATIA V5</span><span class="project-tool">Assembly Design</span></div><div class="project-name">Oldham's Coupling Assembly</div><p class="project-desc">Oldham's coupling mechanism fully modelled and assembled in CATIA V5, demonstrating parallel shaft misalignment compensation through sliding disc coupling design.</p><a href="https://cad.onshape.com/documents/53c64f1f4f794746511607dc/w/ce38824bc16ceebe122b7d07/e/9eb1a5a6b43455acbb742d97" target="_blank" class="project-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>View 3D</a></div>
+      </div>
+
+      <div class="project-card" data-cat="Plastic Product Design">
+        <div class="project-img"><img src="images/Master_Section_1.jpg" alt="Master Section" onload="this.classList.add('img-loaded');this.nextElementSibling.style.display='none'" onerror="this.style.display='none'"/><div class="project-img-placeholder"><span>⬡</span></div><div class="project-img-label">CATIA V5</div></div>
+        <div class="project-body"><div class="project-tools"><span class="project-tool">CATIA V5</span><span class="project-tool">Plastic Product Design</span></div><div class="project-name">Master Section 1</div><p class="project-desc">Plastic component developed from a master section input in CATIA V5, following automotive interior design methodology for B-side feature generation and surface development.</p><a href="https://cad.onshape.com/documents/d030c5abb637f7f01635cbbc" target="_blank" class="project-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>View 3D</a></div>
+      </div>
+
+      <div class="project-card" data-cat="Assembly Design">
+        <div class="project-img"><img src="images/Lifting_Bed.jpg" alt="Lifting Bed" onload="this.classList.add('img-loaded');this.nextElementSibling.style.display='none'" onerror="this.style.display='none'"/><div class="project-img-placeholder"><span>⚙️</span></div><div class="project-img-label">CATIA V5</div></div>
+        <div class="project-body"><div class="project-tools"><span class="project-tool">CATIA V5</span><span class="project-tool">Assembly Design</span></div><div class="project-name">Lifting Bed Mechanism</div><p class="project-desc">Scissor-type lifting bed mechanism designed and assembled in CATIA V5, with linked arm geometry, pivot points, and linear actuator placement for vertical motion.</p><a href="https://cad.onshape.com/documents/f7263a91f91ed33086156efe" target="_blank" class="project-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>View 3D</a></div>
+      </div>
+
+      <div class="project-card" data-cat="Assembly Design">
+        <div class="project-img"><img src="images/Knuckle_joint_assembly.jpg" alt="Knuckle Joint" onload="this.classList.add('img-loaded');this.nextElementSibling.style.display='none'" onerror="this.style.display='none'"/><div class="project-img-placeholder"><span>⚙️</span></div><div class="project-img-label">CATIA V5</div></div>
+        <div class="project-body"><div class="project-tools"><span class="project-tool">CATIA V5</span><span class="project-tool">Assembly Design</span></div><div class="project-name">Knuckle Joint Assembly</div><p class="project-desc">Knuckle joint assembly designed in CATIA V5 for tensile load applications, with pin, fork, and eye components fully mated and toleranced per standard engineering practice.</p><a href="https://cad.onshape.com/documents/f7263a91f91ed33086156efe" target="_blank" class="project-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>View 3D</a></div>
+      </div>
+
+      <div class="project-card" data-cat="Plastic Product Design">
+        <div class="project-img"><img src="images/Knob.jpg" alt="Knob" onload="this.classList.add('img-loaded');this.nextElementSibling.style.display='none'" onerror="this.style.display='none'"/><div class="project-img-placeholder"><span>⬡</span></div><div class="project-img-label">CATIA V5</div></div>
+        <div class="project-body"><div class="project-tools"><span class="project-tool">CATIA V5</span><span class="project-tool">Plastic Product Design</span></div><div class="project-name">Knob</div><p class="project-desc">Ergonomic plastic knob designed in CATIA V5 with textured grip surface, internal boss for shaft fitment, and injection moulding-compliant geometry throughout.</p><a href="https://cad.onshape.com/documents/dd4336f9915282bfd428838c" target="_blank" class="project-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>View 3D</a></div>
+      </div>
+
+      <div class="project-card" data-cat="Other Design">
+        <div class="project-img"><img src="images/Hydrolic_Power_Plant.jpg" alt="Hydraulic Power Plant" onload="this.classList.add('img-loaded');this.nextElementSibling.style.display='none'" onerror="this.style.display='none'"/><div class="project-img-placeholder"><span>🏭</span></div><div class="project-img-label">CATIA V5</div></div>
+        <div class="project-body"><div class="project-tools"><span class="project-tool">CATIA V5</span><span class="project-tool">Other Design</span></div><div class="project-name">Hydraulic Power Plant</div><p class="project-desc">Conceptual hydraulic power plant layout modelled in CATIA V5, incorporating dam body, spillway, penstock, and turbine housing in a structured 3D environment.</p><a href="https://cad.onshape.com/documents/ad827a275480b3e6a5f1996d" target="_blank" class="project-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>View 3D</a></div>
+      </div>
+
+      <div class="project-card" data-cat="Assembly Design">
+        <div class="project-img"><img src="images/Hydraulic_Pump_Assembly.jpg" alt="Hydraulic Pump" onload="this.classList.add('img-loaded');this.nextElementSibling.style.display='none'" onerror="this.style.display='none'"/><div class="project-img-placeholder"><span>⚙️</span></div><div class="project-img-label">CATIA V5</div></div>
+        <div class="project-body"><div class="project-tools"><span class="project-tool">CATIA V5</span><span class="project-tool">Assembly Design</span></div><div class="project-name">Hydraulic Pump Assembly</div><p class="project-desc">Hydraulic pump assembly modelled in CATIA V5 with pump body, piston, valves, and inlet/outlet ports, demonstrating fluid power system component integration.</p><a href="https://cad.onshape.com/documents/b691e420e40a52b86f8a3e49" target="_blank" class="project-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>View 3D</a></div>
+      </div>
+
+      <div class="project-card" data-cat="Sheet Metal">
+        <div class="project-img"><img src="images/Holder_Clip.jpg" alt="Holder Clip" onload="this.classList.add('img-loaded');this.nextElementSibling.style.display='none'" onerror="this.style.display='none'"/><div class="project-img-placeholder"><span>▦</span></div><div class="project-img-label">CATIA V5</div></div>
+        <div class="project-body"><div class="project-tools"><span class="project-tool">CATIA V5</span><span class="project-tool">Sheet Metal</span></div><div class="project-name">Holder Clip</div><p class="project-desc">Sheet metal holder clip designed in CATIA V5 using sheet metal workbench — including flanges, bends, cutouts, and flat pattern development for manufacturing.</p><a href="https://cad.onshape.com/documents/2025f5d4ebfdfba6525b6642" target="_blank" class="project-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>View 3D</a></div>
+      </div>
+
+      <div class="project-card" data-cat="Plastic Product Design">
+        <div class="project-img"><img src="images/Fuse_Box_Joining.jpg" alt="Fuse Box" onload="this.classList.add('img-loaded');this.nextElementSibling.style.display='none'" onerror="this.style.display='none'"/><div class="project-img-placeholder"><span>⬡</span></div><div class="project-img-label">CATIA V5</div></div>
+        <div class="project-body"><div class="project-tools"><span class="project-tool">CATIA V5</span><span class="project-tool">Plastic Product Design</span></div><div class="project-name">Fuse Box</div><p class="project-desc">Automotive fuse box housing designed in CATIA V5 with joining features, cover fitment, internal rib layout, and DFM compliance for high-volume injection moulding.</p><a href="https://cad.onshape.com/documents/04c6e82e9f28a89ca0bca2b8" target="_blank" class="project-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>View 3D</a></div>
+      </div>
+
+      <div class="project-card" data-cat="Assembly Design">
+        <div class="project-img"><img src="images/Double_Bearing_assembly.jpg" alt="Double Bearing" onload="this.classList.add('img-loaded');this.nextElementSibling.style.display='none'" onerror="this.style.display='none'"/><div class="project-img-placeholder"><span>⚙️</span></div><div class="project-img-label">CATIA V5</div></div>
+        <div class="project-body"><div class="project-tools"><span class="project-tool">CATIA V5</span><span class="project-tool">Assembly Design</span></div><div class="project-name">Double Bearing Assembly</div><p class="project-desc">Double bearing assembly modelled in CATIA V5 with inner/outer races, rolling elements, cage, and housing — demonstrating precision fit and tolerance stack-up awareness.</p><a href="https://cad.onshape.com/documents/91fb7a14ca6c9c5555b33799" target="_blank" class="project-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>View 3D</a></div>
+      </div>
+
+      <div class="project-card" data-cat="Plastic Product Design">
+        <div class="project-img"><img src="images/DOG_HOUSE.jpg" alt="Dog House" onload="this.classList.add('img-loaded');this.nextElementSibling.style.display='none'" onerror="this.style.display='none'"/><div class="project-img-placeholder"><span>⬡</span></div><div class="project-img-label">CATIA V5</div></div>
+        <div class="project-body"><div class="project-tools"><span class="project-tool">CATIA V5</span><span class="project-tool">Plastic Product Design</span></div><div class="project-name">Dog House Feature</div><p class="project-desc">Dog house reinforcement feature designed in CATIA V5, applied to automotive plastic panels to reinforce attachment zones without increasing part weight or wall thickness.</p><a href="https://cad.onshape.com/documents/a01f2c34769db558067fde38" target="_blank" class="project-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>View 3D</a></div>
+      </div>
+
+      <div class="project-card" data-cat="Plastic Product Design">
+        <div class="project-img"><img src="images/Cliping_Tower.jpg" alt="Clipping Tower" onload="this.classList.add('img-loaded');this.nextElementSibling.style.display='none'" onerror="this.style.display='none'"/><div class="project-img-placeholder"><span>⬡</span></div><div class="project-img-label">CATIA V5</div></div>
+        <div class="project-body"><div class="project-tools"><span class="project-tool">CATIA V5</span><span class="project-tool">Plastic Product Design</span></div><div class="project-name">Clipping Tower</div><p class="project-desc">Clipping tower feature modelled in CATIA V5 for automotive plastic trim applications, enabling secure clip attachment with controlled deflection and retention force.</p><a href="https://cad.onshape.com/documents/d2f72663866ae8052261f492" target="_blank" class="project-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>View 3D</a></div>
+      </div>
+
+      <div class="project-card" data-cat="Assembly Design">
+        <div class="project-img"><img src="images/Butterfly_valve.jpg" alt="Butterfly Valve" onload="this.classList.add('img-loaded');this.nextElementSibling.style.display='none'" onerror="this.style.display='none'"/><div class="project-img-placeholder"><span>⚙️</span></div><div class="project-img-label">CATIA V5</div></div>
+        <div class="project-body"><div class="project-tools"><span class="project-tool">CATIA V5</span><span class="project-tool">Assembly Design</span></div><div class="project-name">Butterfly Valve</div><p class="project-desc">Butterfly valve assembly modelled in CATIA V5 with disc, shaft, body, and actuator components — demonstrating flow control mechanism design and rotational constraint setup.</p><a href="https://cad.onshape.com/documents/68845ca34c52d4fb7836ea71" target="_blank" class="project-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>View 3D</a></div>
+      </div>
+
+      <div class="project-card" data-cat="Assembly Design">
+        <div class="project-img"><img src="images/Blower_Assembly.jpg" alt="Blower Assembly" onload="this.classList.add('img-loaded');this.nextElementSibling.style.display='none'" onerror="this.style.display='none'"/><div class="project-img-placeholder"><span>⚙️</span></div><div class="project-img-label">CATIA V5</div></div>
+        <div class="project-body"><div class="project-tools"><span class="project-tool">CATIA V5</span><span class="project-tool">Assembly Design</span></div><div class="project-name">Blower Assembly</div><p class="project-desc">Industrial blower assembly designed in CATIA V5, with impeller, housing, inlet cone, and drive shaft components fully constrained for functional representation.</p><a href="https://cad.onshape.com/documents/90aeedfaa96f27cad108a45a" target="_blank" class="project-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>View 3D</a></div>
+      </div>
+
+      <div class="project-card" data-cat="BIW Part Design">
+        <div class="project-img"><img src="images/BIW_Cross_Member.jpg" alt="BIW Cross Member" onload="this.classList.add('img-loaded');this.nextElementSibling.style.display='none'" onerror="this.style.display='none'"/><div class="project-img-placeholder"><span>▦</span></div><div class="project-img-label">CATIA V5</div></div>
+        <div class="project-body"><div class="project-tools"><span class="project-tool">CATIA V5</span><span class="project-tool">BIW Part Design</span></div><div class="project-name">BIW Cross Member</div><p class="project-desc">Body-in-White underbody cross member designed in CATIA V5 from master section input, applying automotive BIW standards, GD&T annotations, and manufacturing drawing preparation.</p><a href="https://cad.onshape.com/documents/b2434951b35ea7c35bce6b25" target="_blank" class="project-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>View 3D</a></div>
+      </div>
+
+      <div class="project-card" data-cat="Assembly Design">
+        <div class="project-img"><img src="images/Bench_Vice.jpg" alt="Bench Vice" onload="this.classList.add('img-loaded');this.nextElementSibling.style.display='none'" onerror="this.style.display='none'"/><div class="project-img-placeholder"><span>⚙️</span></div><div class="project-img-label">CATIA V5</div></div>
+        <div class="project-body"><div class="project-tools"><span class="project-tool">CATIA V5</span><span class="project-tool">Assembly Design</span></div><div class="project-name">Bench Vice</div><p class="project-desc">Bench vice assembly modelled in CATIA V5 with fixed jaw, movable jaw, lead screw, and handle, demonstrating mechanical clamping mechanism and assembly constraint setup.</p><a href="https://cad.onshape.com/documents/8d77797a9f498e3329737867" target="_blank" class="project-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>View 3D</a></div>
+      </div>
+
+      <div class="project-card" data-cat="Plastic Product Design">
+        <div class="project-img"><img src="images/BASE_Bracket.jpg" alt="Base Bracket" onload="this.classList.add('img-loaded');this.nextElementSibling.style.display='none'" onerror="this.style.display='none'"/><div class="project-img-placeholder"><span>⬡</span></div><div class="project-img-label">CATIA V5</div></div>
+        <div class="project-body"><div class="project-tools"><span class="project-tool">CATIA V5</span><span class="project-tool">Plastic Product Design</span></div><div class="project-name">Plastic Part 5 – Base Bracket</div><p class="project-desc">Plastic base bracket designed in CATIA V5 with mounting features, gussets, and snap locking provisions for secure fitment in automotive interior assemblies.</p><a href="https://cad.onshape.com/documents/496ff67068553facb94e5219" target="_blank" class="project-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>View 3D</a></div>
+      </div>
+
+      <div class="project-card" data-cat="Other Design">
+        <div class="project-img"><img src="images/Assembly_practice.jpg" alt="Practice Project" onload="this.classList.add('img-loaded');this.nextElementSibling.style.display='none'" onerror="this.style.display='none'"/><div class="project-img-placeholder"><span>🔩</span></div><div class="project-img-label">CATIA V5</div></div>
+        <div class="project-body"><div class="project-tools"><span class="project-tool">CATIA V5</span><span class="project-tool">Other Design</span></div><div class="project-name">Practice Assembly Project</div><p class="project-desc">Comprehensive practice assembly project in CATIA V5 combining part design, assembly constraints, and 2D drawing extraction to reinforce multi-domain CAD workflow skills.</p><a href="https://cad.onshape.com/documents/c1bf45768261750781dc4f12" target="_blank" class="project-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>View 3D</a></div>
+      </div>
+
+      <div class="project-card" data-cat="Plastic Product Design">
+        <div class="project-img"><img src="images/A_piller.jpg" alt="A Pillar" onload="this.classList.add('img-loaded');this.nextElementSibling.style.display='none'" onerror="this.style.display='none'"/><div class="project-img-placeholder"><span>⬡</span></div><div class="project-img-label">CATIA V5</div></div>
+        <div class="project-body"><div class="project-tools"><span class="project-tool">CATIA V5</span><span class="project-tool">Plastic Product Design</span></div><div class="project-name">Automotive A Pillar</div><p class="project-desc">Automotive A-pillar trim component designed in CATIA V5 with class-A surface interpretation, wall thickness control, ribs, snaps, and parting line for injection moulding.</p><a href="https://cad.onshape.com/documents/0ccbcff5dc94e2f51e9abdd9" target="_blank" class="project-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>View 3D</a></div>
+      </div>
+
+      <div class="project-card" data-cat="Reverse Engineering">
+        <div class="project-img"><img src="images/TATA_Indigo_radiator_cover.jpg" alt="Tata Indigo" onload="this.classList.add('img-loaded');this.nextElementSibling.style.display='none'" onerror="this.style.display='none'"/><div class="project-img-placeholder"><span>🔄</span></div><div class="project-img-label">SolidWorks</div></div>
+        <div class="project-body"><div class="project-tools"><span class="project-tool">SolidWorks</span><span class="project-tool">Reverse Engineering</span></div><div class="project-name">Reverse Engineering – Tata Indigo Radiator Cover</div><p class="project-desc">Reverse engineered the radiator cover of a Tata Indigo diesel car by measuring physical components and modelling in SolidWorks. Created accurate 3D CAD and 2D engineering drawings.</p><a href="https://cad.onshape.com/documents/76da629222336ffe73b6fcec" target="_blank" class="project-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>View 3D</a></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- GET IN TOUCH MODAL -->
+<div class="contact-modal" id="contactModal" onclick="closeModalOutside(event,'contactModal')">
+  <div class="contact-box">
+    <button class="modal-back" onclick="closeModal('contactModal')" style="position:absolute;top:1rem;right:1rem;">← Back</button>
+    <h3>Get in Touch</h3>
+    <p>Open to full-time roles, collaborations, and design projects. Reach out via any channel below.</p>
+    <a href="mailto:nirajrane1962@gmail.com" class="contact-item">
+      <div class="contact-item-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00C2FF" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></div>
+      <div class="contact-item-text"><div class="label">Email</div><div class="value">nirajrane1962@gmail.com</div></div>
+    </a>
+    <a href="tel:+918956287397" class="contact-item">
+      <div class="contact-item-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00C2FF" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.15 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.05 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 17z"/></svg></div>
+      <div class="contact-item-text"><div class="label">Phone</div><div class="value">+91 89562 87397</div></div>
+    </a>
+    <a href="https://www.linkedin.com/in/niraj-rane-845a111b6" target="_blank" class="contact-item">
+      <div class="contact-item-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="#00C2FF"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></div>
+      <div class="contact-item-text"><div class="label">LinkedIn</div><div class="value">niraj-rane-845a111b6</div></div>
+    </a>
+    <a href="#" onclick="openResume(event)" class="contact-item">
+      <div class="contact-item-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00C2FF" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+      <div class="contact-item-text"><div class="label">Resume</div><div class="value">Download CV (coming soon)</div></div>
+    </a>
+  </div>
+</div>
+
+<script>
+  function goTop(){window.scrollTo({top:0,behavior:'smooth'})}
+  function navTo(id){closeMenu();const el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth'})}
+  function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('open')}
+  function closeMenu(){document.getElementById('mobileMenu').classList.remove('open')}
+  function mobileNav(id){closeMenu();setTimeout(()=>navTo(id),150)}
+  function openResume(e){e.preventDefault();alert('Resume coming soon! Contact via email in the meantime.')}
+
+  function openAllProjects(){document.getElementById('allProjectsModal').classList.add('open');document.body.style.overflow='hidden'}
+  function openContact(){document.getElementById('contactModal').classList.add('open');document.body.style.overflow='hidden'}
+  function closeModal(id){document.getElementById(id).classList.remove('open');document.body.style.overflow=''}
+  function closeModalOutside(e,id){if(e.target===document.getElementById(id))closeModal(id)}
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal('allProjectsModal');closeModal('contactModal')}})
+
+  function filterProjects(cat,btn){
+    document.querySelectorAll('.filter-tab').forEach(t=>t.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('#modalGrid .project-card').forEach(card=>{
+      if(cat==='all'||card.dataset.cat===cat){card.classList.remove('hidden')}
+      else{card.classList.add('hidden')}
+    });
+  }
+
+  const reveals=document.querySelectorAll('.reveal');
+  const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:.1});
+  reveals.forEach(el=>observer.observe(el));
+</script>
+</body>
+</html>
